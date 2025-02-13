@@ -1,0 +1,58 @@
+<idea-plugin>
+    <id>com.alefranc.compose-preview-screenshot-testing-plugin</id>
+    <name>Compose Preview Screenshot Testing</name>
+    <vendor>Alexandre Lefranc</vendor>
+
+    <description><![CDATA[
+    Enter short description for your plugin here.<br>
+    <em>most HTML tags may be used</em>
+  ]]></description>
+
+    <depends>com.intellij.gradle</depends>
+    <depends>com.intellij.modules.androidstudio</depends>
+    <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.android</depends>
+    <depends>org.jetbrains.kotlin</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <codeInsight.lineMarkerProvider
+                language="kotlin"
+                implementationClass="com.alefranc.composescreenshotplugin.extensions.ScreenshotClassLineMarkerProvider"/>
+
+        <codeInsight.lineMarkerProvider
+                language="kotlin"
+                implementationClass="com.alefranc.composescreenshotplugin.extensions.ScreenshotTestLineMarkerProvider"/>
+
+    </extensions>
+    <actions>
+        <group id="com.alefranc.composescreenshotplugin.actions.ScreenshotActionsGroup"
+               text="Run screenshot tests"
+               popup="true"
+               class="com.alefranc.composescreenshotplugin.actions.ScreenshotActionsGroup">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+            <add-to-group group-id="ChangesViewPopupMenu" anchor="last"/>
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+
+            <action id="com.alefranc.composescreenshotplugin.actions.VerifyAction"
+                    class="com.alefranc.composescreenshotplugin.actions.VerifyAction"
+                    popup="true"
+                    text="Verify"/>
+
+            <action id="com.alefranc.composescreenshotplugin.actions.RecordAction"
+                    class="com.alefranc.composescreenshotplugin.actions.RecordAction"
+                    popup="true"
+                    text="Record"/>
+
+            <action id="com.alefranc.composescreenshotplugin.actions.ShowReferencesAction"
+                    class="com.alefranc.composescreenshotplugin.actions.ShowReferencesAction"
+                    popup="true"
+                    text="Show references images"/>
+
+            <action id="com.alefranc.composescreenshotplugin.actions.DeleteReferencesAction"
+                    class="com.alefranc.composescreenshotplugin.actions.DeleteReferencesAction"
+                    popup="true"
+                    text="Delete references images"/>
+        </group>
+    </actions>
+</idea-plugin>
