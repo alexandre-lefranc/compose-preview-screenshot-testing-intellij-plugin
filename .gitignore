@@ -132,3 +132,5 @@ gradle/
 
 # Kotlin
 .kotlin/
+
+local.properties
