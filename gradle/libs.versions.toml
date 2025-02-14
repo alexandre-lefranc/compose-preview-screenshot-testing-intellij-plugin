@@ -1,0 +1,18 @@
+[versions]
+# libraries
+junit = "4.13.2"
+
+# plugins
+changelog = "2.2.1"
+detekt = "1.23.7"
+intelliJPlatform = "2.2.1"
+kotlin = "2.0.21"
+
+[libraries]
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+
+[plugins]
+changelog = { id = "org.jetbrains.changelog", version.ref = "changelog" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+intelliJPlatform = { id = "org.jetbrains.intellij.platform", version.ref = "intelliJPlatform" }
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
