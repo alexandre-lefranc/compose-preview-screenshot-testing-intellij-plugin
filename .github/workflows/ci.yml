@@ -33,7 +33,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Detekt
-        uses: natiginfo/action-detekt-all@v1.23.7 # Consider pinning Detekt version in detekt.yml
+        uses: natiginfo/action-detekt-all@1.23.7 # Consider pinning Detekt version in detekt.yml
         with:
           args: --config codeQuality/detekt.yml
 
@@ -48,7 +48,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew test
       - name: Publish Test Results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-results
           path: build/test-results/test*
