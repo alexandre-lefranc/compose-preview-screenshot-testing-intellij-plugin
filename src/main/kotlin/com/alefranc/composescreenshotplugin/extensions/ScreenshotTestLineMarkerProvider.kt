@@ -14,9 +14,9 @@ import org.jetbrains.kotlin.psi.psiUtil.getNonStrictParentOfType
 
 class ScreenshotTestLineMarkerProvider : LineMarkerProvider {
     override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<*>? {
-        if (element !is KtNamedFunction) return null
-        val parentClass = element.getNonStrictParentOfType(KtClass::class.java) ?: return null
-        if (!parentClass.isScreenshotTestClass || !element.hasComposablePreviewAnnotation) return null
+        if (element !is KtNamedFunction ||
+            element.getNonStrictParentOfType(KtClass::class.java)?.isScreenshotTestClass != true ||
+            element.hasComposablePreviewAnnotation) return null
 
         return element.getLineMarkerInfo()
     }

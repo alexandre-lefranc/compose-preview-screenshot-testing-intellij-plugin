@@ -1,0 +1,10 @@
+config:
+  validation: true
+  warningsAsErrors: true
+
+style:
+  active: true
+
+  ReturnCount:
+    active: true
+    max: 3

@@ -1,5 +1,4 @@
 import org.gradle.api.JavaVersion.VERSION_17
-import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.Changelog.OutputType.HTML
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 import java.util.*
@@ -92,6 +91,11 @@ intellijPlatform {
 changelog {
     version = pluginVersion
     repositoryUrl = "https://github.com/pbreault/adb-idea"
+}
+
+detekt {
+    buildUponDefaultConfig = true
+    config.setFrom("$projectDir/codeQuality/detekt.yml")
 }
 
 val runLocalIde by intellijPlatformTesting.runIde.registering {

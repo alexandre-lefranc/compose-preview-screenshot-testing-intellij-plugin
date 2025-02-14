@@ -9,6 +9,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import com.intellij.psi.PsiElement
 import java.awt.Desktop
+import java.io.IOException
 import java.net.URI
 
 class VerifyAction(
@@ -21,14 +22,14 @@ class VerifyAction(
     override val gradleCommandLineOption = "tests"
     override val gradleCommandLine = "validate"
 
-    @Suppress("TooGenericExceptionCaught")
     override fun onTaskSuccess(project: Project, androidModel: GradleAndroidModel) {
         val reportPath = androidModel.screenshotReportPath
 
         ApplicationManager.getApplication().invokeLater {
             try {
                 Desktop.getDesktop().browse(URI.create("file://$reportPath"))
-            } catch (exception: Exception) {
+            } catch (exception: IOException) {
+                exception.printStackTrace()
                 Messages.showMessageDialog(
                     project,
                     "Cannot open report at $reportPath",

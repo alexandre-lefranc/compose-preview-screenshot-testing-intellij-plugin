@@ -9,7 +9,6 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiElement
 import java.io.IOException
 
-
 class DeleteReferencesAction(
     anchorElement: PsiElement? = null,
 ) : BaseReferenceFilesAction(anchorElement) {
@@ -22,8 +21,8 @@ class DeleteReferencesAction(
             WriteCommandAction.runWriteCommandAction(project) {
                 try {
                     references.forEach { it.delete(it) }
-                } catch (e: IOException) {
-
+                } catch (exception: IOException) {
+                    exception.printStackTrace()
                 }
             }
         }
