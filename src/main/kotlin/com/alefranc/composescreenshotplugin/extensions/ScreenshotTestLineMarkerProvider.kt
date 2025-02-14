@@ -16,7 +16,10 @@ class ScreenshotTestLineMarkerProvider : LineMarkerProvider {
     override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<*>? {
         if (element !is KtNamedFunction ||
             element.getNonStrictParentOfType(KtClass::class.java)?.isScreenshotTestClass != true ||
-            element.hasComposablePreviewAnnotation) return null
+            element.hasComposablePreviewAnnotation
+        ) {
+            return null
+        }
 
         return element.getLineMarkerInfo()
     }

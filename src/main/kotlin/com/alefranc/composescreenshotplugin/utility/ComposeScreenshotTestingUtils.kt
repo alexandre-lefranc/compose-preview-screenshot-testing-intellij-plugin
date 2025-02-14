@@ -38,11 +38,11 @@ val KtClass.isScreenshotTestClassWithComposablePreviewFunction: Boolean
 
 val KtClass.isScreenshotTestClass: Boolean
     get() = !this.isData() &&
-            !this.isInterface() &&
-            !this.isEnum() &&
-            !this.isSealed() &&
-            !this.isInner() &&
-            containingKtFile.isScreenshotTestPath
+        !this.isInterface() &&
+        !this.isEnum() &&
+        !this.isSealed() &&
+        !this.isInner() &&
+        containingKtFile.isScreenshotTestPath
 
 val KtClass.hasComposablePreviewFunction: Boolean
     get() {
@@ -65,12 +65,12 @@ private fun IdeVariant.computePathSegments(): String {
 }
 
 private val KtNamedFunction.hasComposableAnnotation: Boolean
-    get () = this.descriptor?.annotations?.hasAnnotation(COMPOSE_ANNOTATION_FQ_NAME) == true
+    get() = this.descriptor?.annotations?.hasAnnotation(COMPOSE_ANNOTATION_FQ_NAME) == true
 
 private val KtNamedFunction.hasComposePreviewAnnotation: Boolean
     get() {
         return this.descriptor?.annotations?.hasAnnotation(COMPOSE_PREVIEW_ANNOTATION_FQ_NAME) == true ||
-                this.descriptor?.annotations?.any {
-                    it.type.toClassDescriptor?.annotations?.hasAnnotation(COMPOSE_PREVIEW_ANNOTATION_FQ_NAME) == true
-                } == true
+            this.descriptor?.annotations?.any {
+                it.type.toClassDescriptor?.annotations?.hasAnnotation(COMPOSE_PREVIEW_ANNOTATION_FQ_NAME) == true
+            } == true
     }

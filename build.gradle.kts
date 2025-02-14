@@ -39,7 +39,9 @@ repositories {
 
 dependencies {
     intellijPlatform {
-        androidStudio("2024.2.2.13") // https://plugins.jetbrains.com/docs/intellij/android-studio-releases-list.html#2024
+        androidStudio(
+            "2024.2.2.13"
+        ) // https://plugins.jetbrains.com/docs/intellij/android-studio-releases-list.html#2024
         bundledPlugins("org.jetbrains.kotlin", "com.intellij.gradle")
         plugin("org.jetbrains.android:243.23654.153")
         pluginVerifier()
@@ -50,6 +52,8 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("script-runtime"))
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.4.21")
+
+    testImplementation("junit:junit:4.13.2")
 }
 
 intellijPlatform {
@@ -78,8 +82,8 @@ intellijPlatform {
 //        password = localProperties.getProperty("password")
     }
     publishing {
-        //token = localProperties.getProperty("token")
-        //channels(pluginVersion.split('-').getOrElse(1) { "default" }.split('.').first())
+        // token = localProperties.getProperty("token")
+        // channels(pluginVersion.split('-').getOrElse(1) { "default" }.split('.').first())
     }
 }
 
