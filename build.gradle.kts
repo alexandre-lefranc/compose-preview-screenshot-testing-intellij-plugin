@@ -1,7 +1,6 @@
 import org.gradle.api.JavaVersion.VERSION_17
 import org.jetbrains.changelog.Changelog.OutputType.HTML
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
-import java.util.*
 
 val pluginGroup: String by project
 val pluginName: String by project
@@ -12,10 +11,6 @@ val pluginUntilBuild: String by project
 val platformType: String by project
 val platformVersion: String by project
 val platformDownloadSources: String by project
-
-val localProperties = Properties().apply {
-    load(rootProject.file("local.properties").inputStream())
-}
 
 plugins {
     id("java")
