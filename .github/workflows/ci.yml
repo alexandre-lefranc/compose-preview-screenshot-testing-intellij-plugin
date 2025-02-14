@@ -18,3 +18,5 @@ jobs:
 
       - name: "detekt"
         uses: natiginfo/action-detekt-all@1.23.7
+        with:
+          args: --config codeQuality/detekt.yml
