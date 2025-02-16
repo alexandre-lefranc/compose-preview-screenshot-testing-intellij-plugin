@@ -89,7 +89,7 @@ intellijPlatform {
 
 changelog {
     version = pluginVersion
-    repositoryUrl = "https://github.com/pbreault/adb-idea"
+    repositoryUrl = "https://github.com/alexandre-lefranc/compose-preview-screenshot-testing-intellij-plugin"
 }
 
 detekt {
