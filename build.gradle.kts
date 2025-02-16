@@ -7,6 +7,7 @@ val pluginName: String by project
 val pluginVersion: String by project
 val pluginSinceBuild: String by project
 val pluginUntilBuild: String by project
+val pluginRepositoryUrl: String by project
 
 val platformType: String by project
 val platformVersion: String by project
@@ -89,7 +90,7 @@ intellijPlatform {
 
 changelog {
     version = pluginVersion
-    repositoryUrl = "https://github.com/alexandre-lefranc/compose-preview-screenshot-testing-intellij-plugin"
+    repositoryUrl = pluginRepositoryUrl
 }
 
 detekt {
