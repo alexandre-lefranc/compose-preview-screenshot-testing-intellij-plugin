@@ -1,6 +1,7 @@
 package com.alefranc.composescreenshotplugin.extensions
 
 import com.alefranc.composescreenshotplugin.testUtils.KOTLIN_LANGUAGE_ID
+import com.alefranc.composescreenshotplugin.testUtils.TEST_DATA_PATH
 import com.alefranc.composescreenshotplugin.testUtils.stubComposableAnnotation
 import com.alefranc.composescreenshotplugin.testUtils.stubPreviewAnnotation
 import com.intellij.codeInsight.daemon.LineMarkerInfo
@@ -8,7 +9,6 @@ import com.intellij.codeInsight.daemon.LineMarkerProviders
 import com.intellij.icons.AllIcons
 import com.intellij.lang.Language
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
-import java.nio.file.Paths
 
 class ScreenshotClassLineMarkerProviderTest : BasePlatformTestCase() {
 
@@ -22,7 +22,7 @@ class ScreenshotClassLineMarkerProviderTest : BasePlatformTestCase() {
 
         myFixture.stubComposableAnnotation()
         myFixture.stubPreviewAnnotation()
-        myFixture.testDataPath = Paths.get("./src/test/testData/").toAbsolutePath().toString()
+        myFixture.testDataPath = TEST_DATA_PATH
         val file = myFixture.copyFileToProject(
             "SingleScreenshotTestClass.kt",
             "src/screenshotTest/kotlin/com/myapp/SingleScreenshotTestClass.kt",

@@ -1,8 +1,11 @@
 package com.alefranc.composescreenshotplugin.testUtils
 
 import com.intellij.testFramework.fixtures.CodeInsightTestFixture
+import java.nio.file.Paths
 
 const val KOTLIN_LANGUAGE_ID = "kotlin"
+
+val TEST_DATA_PATH = Paths.get("./src/test/testData/").toAbsolutePath().toString()
 
 fun CodeInsightTestFixture.stubComposableAnnotation() {
     addFileToProject(
