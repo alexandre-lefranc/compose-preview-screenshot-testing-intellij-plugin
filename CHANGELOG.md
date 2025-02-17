@@ -13,5 +13,3 @@
 ### Fixed
 
 ### Security
-
-[Unreleased]: https://github.com/pbreault/adb-idea/commits

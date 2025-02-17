@@ -52,9 +52,9 @@ dependencies {
 
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("script-runtime"))
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.4.21")
+    implementation(kotlin("reflect"))
 
-    testImplementation("junit:junit:4.13.2")
+    testImplementation(libs.junit)
 }
 
 intellijPlatform {
@@ -78,13 +78,14 @@ intellijPlatform {
         }
     }
     signing {
-//        certificateChainFile = file(localProperties.getProperty("certificateChainFile"))
-//        privateKeyFile = file(localProperties.getProperty("privateKeyFile"))
-//        password = localProperties.getProperty("password")
+        certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN")
+        privateKey = providers.environmentVariable("PRIVATE_KEY")
+        password = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
     }
     publishing {
-        // token = localProperties.getProperty("token")
-        // channels(pluginVersion.split('-').getOrElse(1) { "default" }.split('.').first())
+        token = providers.environmentVariable("PUBLISH_TOKEN")
+        channels = providers.gradleProperty("pluginVersion")
+            .map { listOf(it.substringAfter('-', "").substringBefore('.').ifEmpty { "default" }) }
     }
 }
 

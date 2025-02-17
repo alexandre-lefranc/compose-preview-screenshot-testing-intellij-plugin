@@ -2,6 +2,8 @@ package com.alefranc.composescreenshotplugin.testUtils
 
 import com.intellij.testFramework.fixtures.CodeInsightTestFixture
 
+const val KOTLIN_LANGUAGE_ID = "kotlin"
+
 fun CodeInsightTestFixture.stubComposableAnnotation() {
     addFileToProject(
         "src/androidx/compose/runtime/Composable.kt",
