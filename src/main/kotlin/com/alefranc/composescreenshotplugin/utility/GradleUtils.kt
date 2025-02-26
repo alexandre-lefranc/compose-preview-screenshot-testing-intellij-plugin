@@ -34,7 +34,7 @@ fun Project.isGradleProject(): Boolean {
 
 fun runGradle(project: Project, commandLine: String, taskCallback: TaskCallback) {
     val dataContext = SimpleDataContext.getProjectContext(project)
-    val executionContext = dataContext.getData(EXECUTING_CONTEXT) ?: ProjectContext(project)
+    val executionContext = dataContext.getData(EXECUTING_CONTEXT) ?: RunAnythingContext.ProjectContext(project)
     val executor = EXECUTOR_KEY.getData(dataContext)
     val workDirectory = executionContext.getProjectPath().orEmpty()
 
