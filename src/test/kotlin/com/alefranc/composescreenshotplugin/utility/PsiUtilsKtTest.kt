@@ -17,6 +17,7 @@ class PsiUtilsKtTest : BasePlatformTestCase() {
         // GIVEN
         val kotlinFile = myFixture.configureByText(
             "Test.kt",
+            // language=kotlin
             """
             package com.example
             class MyClass
@@ -36,10 +37,11 @@ class PsiUtilsKtTest : BasePlatformTestCase() {
         // GIVEN
         val kotlinFile = myFixture.configureByText(
             "Test.kt",
+            // language=kotlin
             """
             package com.example
             class MyClass {
-                fun foo(): {}
+                fun foo() {}
             }
             """.trimIndent()
         ) as KtFile

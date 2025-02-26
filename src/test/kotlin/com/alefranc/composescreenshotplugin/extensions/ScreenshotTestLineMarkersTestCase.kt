@@ -14,9 +14,22 @@ import com.intellij.testFramework.TestDataFile
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
 import org.jetbrains.plugins.gradle.settings.GradleProjectSettings
 import org.jetbrains.plugins.gradle.settings.GradleSettings
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
+import org.junit.runners.Parameterized.Parameter
+import org.junit.runners.Parameterized.Parameters
 
-@Suppress("MaxLineLength")
+@RunWith(Parameterized::class)
 class ScreenshotTestLineMarkersTestCase : BasePlatformTestCase() {
+    @Parameter
+    @JvmField
+    var filePath: String = ""
+
+    @Parameter(1)
+    @JvmField
+    var expected: List<Pair<String, Int>> = emptyList()
+
     private val language by lazy {
         Language.findLanguageByID(KOTLIN_LANGUAGE_ID)
     }
@@ -54,64 +67,10 @@ class ScreenshotTestLineMarkersTestCase : BasePlatformTestCase() {
         }
     }
 
-    fun `test GIVEN a class without screenshot test WHEN finding all gutters THEN check that there is no gutter`() {
-        setupFile(
-            sourceFilePath = "NoScreenshotTestClass.kt",
-            targetPath = "src/screenshotTest/kotlin/com/myapp/NoScreenshotTestClass.kt",
-        )
-        checkGutters(emptyList())
-    }
+    @Test
+    fun test() {
+        setupFile(filePath)
 
-    fun `test GIVEN a kotlin file without screenshot test WHEN finding all gutters THEN check that there is no gutter`() {
-        setupFile(
-            sourceFilePath = "UtilityClass.kt",
-            targetPath = "src/screenshotTest/kotlin/com/myapp/UtilityClass.kt",
-        )
-        checkGutters(emptyList())
-    }
-
-    fun `test GIVEN a screenshot test class inside another folder WHEN finding all gutters THEN check that there is one gutter for the screenshot test`() {
-        setupFile(
-            sourceFilePath = "SingleScreenshotTestClass.kt",
-            targetPath = "src/kotlin/com/myapp/SingleScreenshotTestClass.kt",
-        )
-        checkGutters(emptyList())
-    }
-
-    fun `test GIVEN a single screenshot test class WHEN finding all gutters THEN check that there is one gutter for the screenshot test`() {
-        setupFile(
-            sourceFilePath = "SingleScreenshotTestClass.kt",
-            targetPath = "src/screenshotTest/kotlin/com/myapp/SingleScreenshotTestClass.kt",
-        )
-        checkGutters(
-            listOf(
-                RunScreenshotTests to 157,
-                RunScreenshotTest to 222,
-            )
-        )
-    }
-
-    fun `test GIVEN a class with many screenshot tests WHEN finding all gutters THEN check that there is one gutter for screenshot tests`() {
-        setupFile(
-            sourceFilePath = "ManyScreenshotTestsClass.kt",
-            targetPath = "src/screenshotTest/kotlin/com/myapp/ManyScreenshotTestsClass.kt",
-        )
-        checkGutters(
-            listOf(
-                RunScreenshotTests to 250,
-                RunScreenshotTest to 314,
-                RunScreenshotTest to 425,
-                RunScreenshotTest to 543,
-            )
-        )
-    }
-
-    private fun setupFile(@TestDataFile sourceFilePath: String, targetPath: String) {
-        val file = myFixture.copyFileToProject(sourceFilePath, targetPath)
-        myFixture.configureFromExistingVirtualFile(file)
-    }
-
-    private fun checkGutters(infos: List<Pair<String, Int>>) {
         myFixture.doHighlighting()
 
         val gutters = myFixture
@@ -119,13 +78,53 @@ class ScreenshotTestLineMarkersTestCase : BasePlatformTestCase() {
             .filterIsInstance<LineMarkerGutterIconRenderer<*>>()
             .sortedBy { it.lineMarkerInfo.startOffset }
 
-        assertEquals(infos.size, gutters.size)
+        assertEquals(expected.size, gutters.size)
 
         gutters.forEachIndexed { index, gutter ->
-            assertEquals(infos[index].first, gutter.tooltipText)
+            assertEquals(expected[index].first, gutter.tooltipText)
             assertEquals(Green2, gutter.icon)
-            assertEquals(infos[index].second, gutter.lineMarkerInfo.startOffset)
+            assertEquals(expected[index].second, gutter.lineMarkerInfo.startOffset)
             assertNotNull(gutter.clickAction)
         }
+    }
+
+    private fun setupFile(@TestDataFile sourceFilePath: String) {
+        val file = myFixture.copyFileToProject(sourceFilePath)
+        myFixture.configureFromExistingVirtualFile(file)
+    }
+
+    companion object {
+        @JvmStatic
+        @Parameters(name = "GIVEN {0} in {1} WHEN checking THEN should be {2}")
+        fun params() = arrayOf(
+            arrayOf(
+                "src/main/ClassWithComposablePreview.kt",
+                emptyList<Pair<String, Int>>(),
+            ),
+            arrayOf(
+                "src/screenshotTest/ClassWithManyScreenshotTests.kt",
+                listOf(
+                    RunScreenshotTests to 157,
+                    RunScreenshotTest to 221,
+                    RunScreenshotTest to 332,
+                    RunScreenshotTest to 450,
+                ),
+            ),
+            arrayOf(
+                "src/screenshotTest/ClassWithoutScreenshotTest.kt",
+                emptyList<Pair<String, Int>>(),
+            ),
+            arrayOf(
+                "src/screenshotTest/ClassWithSingleScreenshotTest.kt",
+                listOf(
+                    RunScreenshotTests to 157,
+                    RunScreenshotTest to 226,
+                ),
+            ),
+            arrayOf(
+                "src/screenshotTest/ComposablePreviewFunctions.kt",
+                emptyList<Pair<String, Int>>(),
+            ),
+        )
     }
 }

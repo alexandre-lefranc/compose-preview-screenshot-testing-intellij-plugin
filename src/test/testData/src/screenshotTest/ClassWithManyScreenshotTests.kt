@@ -4,14 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.myapp.ui.theme.MyAppTheme
 
-@Preview(
-    name = "foo",
-)
-@Preview(
-    name = "bar",
-)
-annotation class CustomPreviews
-
 class ManyScreenshotTestsClass {
     @Preview
     @Composable
@@ -46,3 +38,11 @@ class ManyScreenshotTestsClass {
         Text("bar")
     }
 }
+
+@Preview(
+    name = "foo",
+)
+@Preview(
+    name = "bar",
+)
+annotation class CustomPreviews

@@ -9,7 +9,6 @@ import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtNamedFunction
-import org.jetbrains.kotlin.psi.psiUtil.containingClass
 import org.jetbrains.kotlinx.serialization.compiler.resolve.toClassDescriptor
 
 private val COMPOSE_ANNOTATION_FQ_NAME = FqName("androidx.compose.runtime.Composable")
