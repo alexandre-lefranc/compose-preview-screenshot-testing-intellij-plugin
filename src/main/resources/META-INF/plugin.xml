@@ -17,11 +17,11 @@
     <extensions defaultExtensionNs="com.intellij">
         <codeInsight.lineMarkerProvider
                 language="kotlin"
-                implementationClass="com.alefranc.composescreenshotplugin.extensions.ScreenshotClassLineMarkerProvider"/>
+                implementationClass="com.alefranc.composescreenshotplugin.extensions.ScreenshotTestClassLineMarkerProvider"/>
 
         <codeInsight.lineMarkerProvider
                 language="kotlin"
-                implementationClass="com.alefranc.composescreenshotplugin.extensions.ScreenshotTestLineMarkerProvider"/>
+                implementationClass="com.alefranc.composescreenshotplugin.extensions.ScreenshotTestFunctionLineMarkerProvider"/>
 
     </extensions>
     <actions>

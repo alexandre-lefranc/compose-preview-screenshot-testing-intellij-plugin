@@ -1,15 +1,16 @@
 package com.myapp
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import com.myapp.ui.theme.MyAppTheme
 
-class SingleScreenshotTestClass {
-    @Preview
+class NoScreenshotTestClass {
     @Composable
-    fun Test1() {
+    fun BasicComposable() {
         MyAppTheme {
             Text("Hello")
         }
+    }
+
+    fun basicFunction() {
     }
 }

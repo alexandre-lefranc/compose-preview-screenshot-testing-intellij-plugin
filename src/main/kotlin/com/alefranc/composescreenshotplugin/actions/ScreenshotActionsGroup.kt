@@ -23,21 +23,17 @@ class ScreenshotActionsGroup : DefaultActionGroup() {
 
         if (project == null) {
             // If no project defined, disable the menu item
-            presentation.isEnabled = false
-            presentation.isVisible = false
+            presentation.isEnabledAndVisible = false
             return
         }
 
         val psiElement = actionEvent.getData(PSI_ELEMENT)
         if (psiElement is PsiDirectory && psiElement.getPackage() != null && psiElement.isScreenshotTestPath) {
-            presentation.isEnabled = true
-            presentation.isVisible = true
+            presentation.isEnabledAndVisible = true
         } else if (psiElement is KtClass && psiElement.isScreenshotTestClassWithComposablePreviewFunction) {
-            presentation.isEnabled = true
-            presentation.isVisible = true
+            presentation.isEnabledAndVisible = true
         } else {
-            presentation.isEnabled = false
-            presentation.isVisible = false
+            presentation.isEnabledAndVisible = false
         }
     }
 }

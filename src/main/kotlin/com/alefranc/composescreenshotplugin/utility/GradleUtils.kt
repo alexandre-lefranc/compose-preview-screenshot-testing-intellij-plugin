@@ -7,9 +7,6 @@ import com.intellij.execution.executors.DefaultRunExecutor.EXECUTOR_ID
 import com.intellij.ide.actions.runAnything.RunAnythingAction.EXECUTOR_KEY
 import com.intellij.ide.actions.runAnything.RunAnythingContext
 import com.intellij.ide.actions.runAnything.RunAnythingContext.BrowseRecentDirectoryContext
-import com.intellij.ide.actions.runAnything.RunAnythingContext.ModuleContext
-import com.intellij.ide.actions.runAnything.RunAnythingContext.ProjectContext
-import com.intellij.ide.actions.runAnything.RunAnythingContext.RecentDirectoryContext
 import com.intellij.ide.actions.runAnything.activity.RunAnythingProviderBase.EXECUTING_CONTEXT
 import com.intellij.openapi.actionSystem.impl.SimpleDataContext
 import com.intellij.openapi.externalSystem.model.execution.ExternalSystemTaskExecutionSettings
@@ -30,6 +27,10 @@ import org.jetbrains.plugins.gradle.util.GradleConstants.SYSTEM_ID
 
 val PsiElement.androidModel: GradleAndroidModel?
     get() = ModuleUtilCore.findModuleForPsiElement(this)?.let { GradleAndroidModel.get(it) }
+
+fun Project.isGradleProject(): Boolean {
+    return GradleSettings.getInstance(this).linkedProjectsSettings.isNotEmpty()
+}
 
 fun runGradle(project: Project, commandLine: String, taskCallback: TaskCallback) {
     val dataContext = SimpleDataContext.getProjectContext(project)
@@ -86,12 +87,12 @@ fun runGradle(
 }
 
 private fun RunAnythingContext.getProjectPath() = when (this) {
-    is ProjectContext ->
+    is RunAnythingContext.ProjectContext ->
         GradleSettings.getInstance(project).linkedProjectsSettings.firstOrNull()
             ?.let { ExternalSystemApiUtil.findProjectNode(project, SYSTEM_ID, it.externalProjectPath) }
             ?.data?.linkedExternalProjectPath
-    is ModuleContext -> module.externalProjectPath
-    is RecentDirectoryContext -> path
+    is RunAnythingContext.ModuleContext -> module.externalProjectPath
+    is RunAnythingContext.RecentDirectoryContext -> path
     is BrowseRecentDirectoryContext -> null
 }
 

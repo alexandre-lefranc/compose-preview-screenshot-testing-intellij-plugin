@@ -2,6 +2,7 @@ package com.alefranc.composescreenshotplugin.extensions
 
 import com.alefranc.composescreenshotplugin.navHandlers.ScreenshotClassNavHandler
 import com.alefranc.composescreenshotplugin.utility.hasComposablePreviewAnnotation
+import com.alefranc.composescreenshotplugin.utility.isGradleProject
 import com.alefranc.composescreenshotplugin.utility.isScreenshotTestClass
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.LineMarkerProvider
@@ -12,11 +13,12 @@ import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtNamedFunction
 import org.jetbrains.kotlin.psi.psiUtil.getNonStrictParentOfType
 
-class ScreenshotTestLineMarkerProvider : LineMarkerProvider {
+class ScreenshotTestFunctionLineMarkerProvider : LineMarkerProvider {
     override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<*>? {
+        if (!element.project.isGradleProject()) return null
         if (element !is KtNamedFunction ||
             element.getNonStrictParentOfType(KtClass::class.java)?.isScreenshotTestClass != true ||
-            element.hasComposablePreviewAnnotation
+            !element.hasComposablePreviewAnnotation
         ) {
             return null
         }

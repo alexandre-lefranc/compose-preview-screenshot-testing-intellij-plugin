@@ -1,9 +1,10 @@
-package com.alefranc.composescreenshotplugin.testUtils
+package com.alefranc.composescreenshotplugin
 
 import com.intellij.testFramework.fixtures.CodeInsightTestFixture
+import org.jetbrains.kotlin.idea.KotlinLanguage
 import java.nio.file.Paths
 
-const val KOTLIN_LANGUAGE_ID = "kotlin"
+val KOTLIN_LANGUAGE_ID = KotlinLanguage.INSTANCE.id
 
 val TEST_DATA_PATH = Paths.get("./src/test/testData/").toAbsolutePath().toString()
 
@@ -73,4 +74,3 @@ fun CodeInsightTestFixture.stubPreviewAnnotation() {
             .trimIndent()
     )
 }
-
