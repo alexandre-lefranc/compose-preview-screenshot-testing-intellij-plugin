@@ -30,9 +30,6 @@ val GradleAndroidModel.screenshotReportPath: String
 val GradleAndroidModel.screenshotReferencePath: String
     get() = "$rootDirPath/src/${selectedVariant.name}/$SCREENSHOT_TEST_DIRECTORY/$SCREENSHOT_TEST_REFERENCE_DIRECTORY"
 
-val KtFile.isScreenshotTestClassWithComposablePreviewFunction: Boolean
-    get() = containingClass()?.isScreenshotTestClassWithComposablePreviewFunction == true
-
 val KtClass.isScreenshotTestClassWithComposablePreviewFunction: Boolean
     get() = this.isScreenshotTestClass && this.hasComposablePreviewFunction
 

@@ -38,7 +38,7 @@ fun runGradle(project: Project, commandLine: String, taskCallback: TaskCallback)
     val executor = EXECUTOR_KEY.getData(dataContext)
     val workDirectory = executionContext.getProjectPath().orEmpty()
 
-    com.alefranc.composescreenshotplugin.utility.runGradle(
+    runGradle(
         project = project,
         executor = executor,
         workDirectory = workDirectory,
@@ -54,7 +54,7 @@ fun runGradle(
     executor: Executor?,
     taskCallback: TaskCallback? = null,
 ) {
-    val gradleTaskExecutionInfo = com.alefranc.composescreenshotplugin.utility.buildGradleTaskInfo(
+    val gradleTaskExecutionInfo = buildGradleTaskInfo(
         projectPath = workDirectory,
         fullCommandLine = fullCommandLine,
         executor = executor,

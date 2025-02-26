@@ -1,6 +1,7 @@
 package com.alefranc.composescreenshotplugin.extensions
 
 import com.alefranc.composescreenshotplugin.navHandlers.ScreenshotClassNavHandler
+import com.alefranc.composescreenshotplugin.utility.PluginTexts.RunScreenshotTest
 import com.alefranc.composescreenshotplugin.utility.hasComposablePreviewAnnotation
 import com.alefranc.composescreenshotplugin.utility.isGradleProject
 import com.alefranc.composescreenshotplugin.utility.isScreenshotTestClass
@@ -33,10 +34,10 @@ class ScreenshotTestFunctionLineMarkerProvider : LineMarkerProvider {
             element,
             element.textRange,
             AllIcons.RunConfigurations.TestState.Green2,
-            { "Run screenshot test" },
+            { RunScreenshotTest },
             ScreenshotClassNavHandler(this),
             RIGHT,
-            { "Run screenshot test" }
+            { RunScreenshotTest }
         )
     }
 }
