@@ -1,6 +1,5 @@
 package com.alefranc.composescreenshotplugin.utility
 
-import com.android.tools.idea.gradle.model.IdeVariant
 import com.android.tools.idea.gradle.project.model.GradleAndroidModel
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiElement
@@ -16,16 +15,16 @@ private val COMPOSE_ANNOTATION_FQ_NAME = FqName("androidx.compose.runtime.Compos
 
 private val COMPOSE_PREVIEW_ANNOTATION_FQ_NAME = FqName("androidx.compose.ui.tooling.preview.Preview")
 
-const val SCREENSHOT_TEST_DIRECTORY = "screenshotTest"
+private const val SCREENSHOT_TEST_DIRECTORY = "screenshotTest"
 
 private const val PREVIEW_REPORTS = "build/reports/screenshotTest/preview"
 
-const val SCREENSHOT_TEST_REFERENCE_DIRECTORY = "reference"
+private const val SCREENSHOT_TEST_REFERENCE_DIRECTORY = "reference"
 
 const val SCREENSHOT_REFERENCE_FILE_EXTENSION = "png"
 
 val GradleAndroidModel.screenshotReportPath: String
-    get() = "$rootDirPath/$PREVIEW_REPORTS/${selectedVariant.computePathSegments()}/index.html"
+    get() = "$rootDirPath/$PREVIEW_REPORTS/${selectedVariant.pathSegments}/index.html"
 
 val GradleAndroidModel.screenshotReferencePath: String
     get() = "$rootDirPath/src/${selectedVariant.name}/$SCREENSHOT_TEST_DIRECTORY/$SCREENSHOT_TEST_REFERENCE_DIRECTORY"
@@ -68,10 +67,6 @@ fun PsiElement.getReferenceImagesPath(): String? {
             else -> null
         }
     }
-}
-
-private fun IdeVariant.computePathSegments(): String {
-    return buildType + "/" + productFlavors.capitalizeExceptFirst().joinToString("")
 }
 
 private val KtNamedFunction.hasComposableAnnotation: Boolean

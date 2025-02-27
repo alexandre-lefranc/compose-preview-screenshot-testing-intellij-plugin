@@ -13,7 +13,7 @@ import org.jetbrains.kotlin.psi.KtClass
 
 class ScreenshotTestClassLineMarkerProvider : LineMarkerProvider {
     override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<*>? {
-        if (!element.project.isGradleProject() ||
+        if (!element.project.isGradleProject ||
             element !is KtClass ||
             !element.isScreenshotTestClassWithComposablePreviewFunction
         ) {

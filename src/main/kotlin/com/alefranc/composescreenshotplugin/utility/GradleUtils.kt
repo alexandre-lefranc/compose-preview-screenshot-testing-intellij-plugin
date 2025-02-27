@@ -1,5 +1,6 @@
 package com.alefranc.composescreenshotplugin.utility
 
+import com.android.tools.idea.gradle.model.IdeVariant
 import com.android.tools.idea.gradle.project.model.GradleAndroidModel
 import com.intellij.execution.Executor
 import com.intellij.execution.RunManager
@@ -28,9 +29,11 @@ import org.jetbrains.plugins.gradle.util.GradleConstants.SYSTEM_ID
 val PsiElement.androidModel: GradleAndroidModel?
     get() = ModuleUtilCore.findModuleForPsiElement(this)?.let { GradleAndroidModel.get(it) }
 
-fun Project.isGradleProject(): Boolean {
-    return GradleSettings.getInstance(this).linkedProjectsSettings.isNotEmpty()
-}
+val Project.isGradleProject: Boolean
+    get() = GradleSettings.getInstance(this).linkedProjectsSettings.isNotEmpty()
+
+val IdeVariant.pathSegments: String
+    get() = buildType + "/" + productFlavors.capitalizeExceptFirst().joinToString("")
 
 fun runGradle(project: Project, commandLine: String, taskCallback: TaskCallback) {
     val dataContext = SimpleDataContext.getProjectContext(project)
