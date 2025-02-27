@@ -1,23 +1,24 @@
 package com.alefranc.composescreenshotplugin.actions
 
 import com.alefranc.composescreenshotplugin.actions.base.BaseScreenshotAction
+import com.alefranc.composescreenshotplugin.content.PluginIcons.ICON_ACTION_EXECUTE
+import com.alefranc.composescreenshotplugin.content.PluginNotifications.DEFAULT_NOTIFICATION_GROUP_ID
+import com.alefranc.composescreenshotplugin.content.PluginTexts.ACTION_TEXT_VERIFY
+import com.alefranc.composescreenshotplugin.content.PluginTexts.NOTIFICATION_VERIFY_TEXT
 import com.alefranc.composescreenshotplugin.utility.screenshotReportPath
 import com.android.tools.idea.gradle.project.model.GradleAndroidModel
-import com.intellij.icons.AllIcons
-import com.intellij.openapi.application.ApplicationManager
+import com.intellij.notification.Notification
+import com.intellij.notification.NotificationType.INFORMATION
+import com.intellij.notification.Notifications.Bus.notify
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.ui.Messages
 import com.intellij.psi.PsiElement
-import java.awt.Desktop
-import java.io.IOException
-import java.net.URI
 
 class VerifyAction(
     anchorElement: PsiElement? = null,
 ) : BaseScreenshotAction(anchorElement) {
 
-    override val actionIcon = AllIcons.Actions.Execute
-    override val actionText = "Verify"
+    override val actionIcon = ICON_ACTION_EXECUTE
+    override val actionText = ACTION_TEXT_VERIFY
 
     override val gradleCommandLineOption = "tests"
     override val gradleCommandLine = "validate"
@@ -25,18 +26,18 @@ class VerifyAction(
     override fun onTaskSuccess(project: Project, androidModel: GradleAndroidModel) {
         val reportPath = androidModel.screenshotReportPath
 
-        ApplicationManager.getApplication().invokeLater {
-            try {
-                Desktop.getDesktop().browse(URI.create("file://$reportPath"))
-            } catch (exception: IOException) {
-                exception.printStackTrace()
-                Messages.showMessageDialog(
-                    project,
-                    "Cannot open report at $reportPath",
-                    "Error",
-                    Messages.getErrorIcon()
-                )
-            }
-        }
+        project.createAndShowNotification(reportPath)
+    }
+
+    private fun Project.createAndShowNotification(reportPath: String) {
+        val notification = Notification(
+            DEFAULT_NOTIFICATION_GROUP_ID,
+            NOTIFICATION_VERIFY_TEXT,
+            INFORMATION,
+        )
+
+        notification.addAction(ShowReportAction(reportPath))
+
+        notify(notification, this)
     }
 }

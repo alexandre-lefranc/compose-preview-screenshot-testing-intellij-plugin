@@ -55,6 +55,8 @@ dependencies {
     implementation(kotlin("reflect"))
 
     testImplementation(libs.junit)
+
+    detektPlugins(libs.detekt.formatting)
 }
 
 intellijPlatform {

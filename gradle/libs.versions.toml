@@ -4,11 +4,12 @@ junit = "4.13.2"
 
 # plugins
 changelog = "2.2.1"
-detekt = "1.23.7"
+detekt = "1.23.8"
 intelliJPlatform = "2.2.1"
 kotlin = "2.0.21"
 
 [libraries]
+detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 
 [plugins]

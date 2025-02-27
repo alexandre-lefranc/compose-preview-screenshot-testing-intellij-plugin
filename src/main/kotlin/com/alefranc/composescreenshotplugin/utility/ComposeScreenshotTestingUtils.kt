@@ -3,6 +3,7 @@ package com.alefranc.composescreenshotplugin.utility
 import com.android.tools.idea.gradle.model.IdeVariant
 import com.android.tools.idea.gradle.project.model.GradleAndroidModel
 import com.intellij.psi.PsiDirectory
+import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import org.jetbrains.kotlin.idea.search.usagesSearch.descriptor
 import org.jetbrains.kotlin.name.FqName
@@ -55,6 +56,19 @@ val KtFile.isScreenshotTestPath: Boolean
 
 val PsiDirectory.isScreenshotTestPath: Boolean
     get() = virtualFile.path.contains(SCREENSHOT_TEST_DIRECTORY)
+
+fun PsiElement.getReferenceImagesPath(): String? {
+    val referencePath = this.androidModel?.screenshotReferencePath ?: return null
+
+    return getFqName()?.pathSegments()?.joinToString("/")?.let { path ->
+        when (this) {
+            is KtClass -> "$referencePath/$path/.*"
+            is KtNamedFunction -> "$referencePath/${path}_.*"
+            is PsiDirectory -> "$referencePath/$path/.*"
+            else -> null
+        }
+    }
+}
 
 private fun IdeVariant.computePathSegments(): String {
     return buildType + "/" + productFlavors.capitalizeExceptFirst().joinToString("")

@@ -2,13 +2,13 @@ package com.alefranc.composescreenshotplugin.extensions
 
 import com.alefranc.composescreenshotplugin.KOTLIN_LANGUAGE_ID
 import com.alefranc.composescreenshotplugin.TEST_DATA_PATH
+import com.alefranc.composescreenshotplugin.content.PluginIcons.ICON_GUTTER_RUN
+import com.alefranc.composescreenshotplugin.content.PluginTexts.GUTTER_RUN_SCREENSHOT_TEST
+import com.alefranc.composescreenshotplugin.content.PluginTexts.GUTTER_RUN_SCREENSHOT_TESTS
 import com.alefranc.composescreenshotplugin.stubComposableAnnotation
 import com.alefranc.composescreenshotplugin.stubPreviewAnnotation
-import com.alefranc.composescreenshotplugin.utility.PluginTexts.RunScreenshotTest
-import com.alefranc.composescreenshotplugin.utility.PluginTexts.RunScreenshotTests
 import com.intellij.codeInsight.daemon.LineMarkerInfo.LineMarkerGutterIconRenderer
 import com.intellij.codeInsight.daemon.LineMarkerProviders
-import com.intellij.icons.AllIcons.RunConfigurations.TestState.Green2
 import com.intellij.lang.Language
 import com.intellij.testFramework.TestDataFile
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
@@ -82,7 +82,7 @@ class ScreenshotTestLineMarkersTestCase : BasePlatformTestCase() {
 
         gutters.forEachIndexed { index, gutter ->
             assertEquals(expected[index].first, gutter.tooltipText)
-            assertEquals(Green2, gutter.icon)
+            assertEquals(ICON_GUTTER_RUN, gutter.icon)
             assertEquals(expected[index].second, gutter.lineMarkerInfo.startOffset)
             assertNotNull(gutter.clickAction)
         }
@@ -104,10 +104,10 @@ class ScreenshotTestLineMarkersTestCase : BasePlatformTestCase() {
             arrayOf(
                 "src/screenshotTest/ClassWithManyScreenshotTests.kt",
                 listOf(
-                    RunScreenshotTests to 157,
-                    RunScreenshotTest to 221,
-                    RunScreenshotTest to 332,
-                    RunScreenshotTest to 450,
+                    GUTTER_RUN_SCREENSHOT_TESTS to 157,
+                    GUTTER_RUN_SCREENSHOT_TEST to 221,
+                    GUTTER_RUN_SCREENSHOT_TEST to 332,
+                    GUTTER_RUN_SCREENSHOT_TEST to 450,
                 ),
             ),
             arrayOf(
@@ -117,8 +117,8 @@ class ScreenshotTestLineMarkersTestCase : BasePlatformTestCase() {
             arrayOf(
                 "src/screenshotTest/ClassWithSingleScreenshotTest.kt",
                 listOf(
-                    RunScreenshotTests to 157,
-                    RunScreenshotTest to 226,
+                    GUTTER_RUN_SCREENSHOT_TESTS to 157,
+                    GUTTER_RUN_SCREENSHOT_TEST to 226,
                 ),
             ),
             arrayOf(

@@ -55,7 +55,7 @@ abstract class BaseScreenshotAction(
             }
         }
 
-        com.alefranc.composescreenshotplugin.utility.runGradle(project, gradleCommandLine, taskCallback)
+        runGradle(project, gradleCommandLine, taskCallback)
     }
 
     private fun getGradleCommandLine(androidModule: GradleAndroidModel, filterPattern: String?): String {
