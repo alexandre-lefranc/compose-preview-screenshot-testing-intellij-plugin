@@ -1,5 +1,6 @@
 package com.alefranc.composescreenshotplugin.actions
 
+import com.alefranc.composescreenshotplugin.content.PluginTexts.ACTION_TEXT_OPEN_REPORT
 import com.alefranc.composescreenshotplugin.utility.screenshotReportPath
 import com.android.tools.idea.gradle.project.model.GradleAndroidModel
 import com.intellij.openapi.actionSystem.AnAction
@@ -15,7 +16,7 @@ import java.net.URI
 
 class ShowReportAction(
     private val reportPath: String? = null
-) : AnAction() {
+) : AnAction(ACTION_TEXT_OPEN_REPORT) {
 
     override fun actionPerformed(actionEvent: AnActionEvent) {
         val reportPath = getReportPath(actionEvent)
