@@ -27,7 +27,7 @@ import org.jetbrains.plugins.gradle.settings.GradleSettings
 import org.jetbrains.plugins.gradle.util.GradleConstants.SYSTEM_ID
 
 val PsiElement.androidModel: GradleAndroidModel?
-    get() = ModuleUtilCore.findModuleForPsiElement(this)?.let { GradleAndroidModel.get(it) }
+    get() = ModuleUtilCore.findModuleForPsiElement(this)?.let(GradleAndroidModel::get)
 
 val Project.isGradleProject: Boolean
     get() = GradleSettings.getInstance(this).linkedProjectsSettings.isNotEmpty()

@@ -1,5 +1,7 @@
 package com.alefranc.composescreenshotplugin.utility
 
+import com.alefranc.composescreenshotplugin.content.PluginTexts.ERROR_NO_FILES_FOUND
+import com.alefranc.composescreenshotplugin.content.PluginTexts.ERROR_TITLE
 import com.intellij.openapi.fileEditor.ex.FileEditorManagerEx
 import com.intellij.openapi.fileTypes.FileTypeManager
 import com.intellij.openapi.project.Project
@@ -10,7 +12,7 @@ import com.intellij.psi.search.GlobalSearchScope
 
 fun FileEditorManagerEx.openFilesInRightSplit(project: Project, files: List<VirtualFile>) {
     if (files.isEmpty()) {
-        Messages.showMessageDialog(project, "No files found to open", "Error", Messages.getErrorIcon())
+        Messages.showMessageDialog(project, ERROR_NO_FILES_FOUND, ERROR_TITLE, Messages.getErrorIcon())
         return
     }
 

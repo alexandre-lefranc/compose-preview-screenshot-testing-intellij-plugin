@@ -11,4 +11,9 @@ object PluginTexts {
     const val GUTTER_RUN_SCREENSHOT_TESTS = "Run screenshot test(s)"
 
     const val NOTIFICATION_VERIFY_TEXT = "Screenshot testing finished"
+
+    const val ERROR_TITLE = "Error"
+    const val ERROR_NO_FILES_FOUND = "No files found to open"
+    const val ERROR_NO_MODULE_SELECTED = "Cannot open report (no module selected)"
+    const val ERROR_CANNOT_OPEN_REPORT = "Cannot open report at: "
 }

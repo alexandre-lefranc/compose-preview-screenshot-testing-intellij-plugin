@@ -1,6 +1,9 @@
 package com.alefranc.composescreenshotplugin.actions
 
 import com.alefranc.composescreenshotplugin.content.PluginTexts.ACTION_TEXT_OPEN_REPORT
+import com.alefranc.composescreenshotplugin.content.PluginTexts.ERROR_CANNOT_OPEN_REPORT
+import com.alefranc.composescreenshotplugin.content.PluginTexts.ERROR_NO_MODULE_SELECTED
+import com.alefranc.composescreenshotplugin.content.PluginTexts.ERROR_TITLE
 import com.alefranc.composescreenshotplugin.utility.screenshotReportPath
 import com.android.tools.idea.gradle.project.model.GradleAndroidModel
 import com.intellij.openapi.actionSystem.AnAction
@@ -9,6 +12,7 @@ import com.intellij.openapi.actionSystem.CommonDataKeys.PSI_ELEMENT
 import com.intellij.openapi.actionSystem.LangDataKeys.MODULE_CONTEXT
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.ui.Messages
+import com.intellij.openapi.ui.Messages.getErrorIcon
 import org.jetbrains.kotlin.idea.base.util.module
 import java.awt.Desktop
 import java.io.IOException
@@ -24,9 +28,9 @@ class ShowReportAction(
         if (reportPath == null) {
             Messages.showMessageDialog(
                 actionEvent.project,
-                "Cannot open report (no module selected)",
-                "Error",
-                Messages.getErrorIcon()
+                ERROR_NO_MODULE_SELECTED,
+                ERROR_TITLE,
+                getErrorIcon()
             )
             return
         }
@@ -38,9 +42,9 @@ class ShowReportAction(
                 exception.printStackTrace()
                 Messages.showMessageDialog(
                     actionEvent.project,
-                    "Cannot open report at $reportPath",
-                    "Error",
-                    Messages.getErrorIcon()
+                    ERROR_CANNOT_OPEN_REPORT + reportPath,
+                    ERROR_TITLE,
+                    getErrorIcon()
                 )
             }
         }

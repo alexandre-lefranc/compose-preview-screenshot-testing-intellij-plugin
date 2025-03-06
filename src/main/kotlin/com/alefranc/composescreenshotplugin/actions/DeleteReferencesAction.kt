@@ -21,7 +21,7 @@ class DeleteReferencesAction(
         ApplicationManager.getApplication().invokeLater {
             WriteCommandAction.runWriteCommandAction(project) {
                 try {
-                    references.forEach { it.delete(it) }
+                    references.forEach { it.delete(project) }
                 } catch (exception: IOException) {
                     exception.printStackTrace()
                 }
