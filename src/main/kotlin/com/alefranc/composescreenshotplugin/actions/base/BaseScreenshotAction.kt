@@ -42,7 +42,7 @@ abstract class BaseScreenshotAction(
         val element = getElement(actionEvent) ?: return
         val project = actionEvent.project ?: return
         val androidModel = element.androidModel ?: return
-        val filterPattern = "${element.getFqName()}*"
+        val filterPattern = element.getFqName()?.let { "$it*" }
         val gradleCommandLine = getGradleCommandLine(androidModel, filterPattern)
 
         val taskCallback = object : TaskCallback {
@@ -64,8 +64,8 @@ abstract class BaseScreenshotAction(
 
         val gradleTaskName =
             "$gradleProjectPath:$gradleCommandLine${variant.name.capitalizedFirstLetter()}ScreenshotTest"
-        val gradleTaskOption = filterPattern?.let { "--$gradleCommandLineOption '$it'" }
+        val gradleTaskOption = filterPattern?.let { "--$gradleCommandLineOption '$filterPattern'" }.orEmpty()
 
-        return "$gradleTaskName $gradleTaskOption"
+        return "$gradleTaskName --rerun $gradleTaskOption".trim()
     }
 }
