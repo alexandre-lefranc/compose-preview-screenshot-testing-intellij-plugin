@@ -2,7 +2,12 @@ package com.alefranc.composescreenshotplugin.actions
 
 import com.alefranc.composescreenshotplugin.actions.base.BaseReferenceFilesAction
 import com.alefranc.composescreenshotplugin.content.PluginIcons.ICON_ACTION_DELETE
+import com.alefranc.composescreenshotplugin.content.PluginNotifications.DEFAULT_NOTIFICATION_GROUP_ID
 import com.alefranc.composescreenshotplugin.content.PluginTexts.ACTION_TEXT_DELETE_REFERENCES
+import com.alefranc.composescreenshotplugin.content.PluginTexts.NOTIFICATION_IMAGES_DELETED_TEXT
+import com.intellij.notification.Notification
+import com.intellij.notification.NotificationType.INFORMATION
+import com.intellij.notification.Notifications.Bus.notify
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.project.Project
@@ -22,6 +27,13 @@ class DeleteReferencesAction(
             WriteCommandAction.runWriteCommandAction(project) {
                 try {
                     references.forEach { it.delete(project) }
+                    val notification = Notification(
+                        DEFAULT_NOTIFICATION_GROUP_ID,
+                        NOTIFICATION_IMAGES_DELETED_TEXT,
+                        INFORMATION,
+                    )
+
+                    notify(notification, project)
                 } catch (exception: IOException) {
                     exception.printStackTrace()
                 }
