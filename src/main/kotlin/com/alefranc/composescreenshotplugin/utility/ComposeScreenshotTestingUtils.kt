@@ -9,6 +9,7 @@ import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtNamedFunction
+import org.jetbrains.kotlin.psi.psiUtil.getNonStrictParentOfType
 import org.jetbrains.kotlinx.serialization.compiler.resolve.toClassDescriptor
 
 private val COMPOSE_ANNOTATION_FQ_NAME = FqName("androidx.compose.runtime.Composable")
@@ -26,35 +27,12 @@ const val SCREENSHOT_REFERENCE_FILE_EXTENSION = "png"
 val GradleAndroidModel.screenshotReportPath: String
     get() = "$rootDirPath/$PREVIEW_REPORTS/${selectedVariant.pathSegments}/index.html"
 
-val GradleAndroidModel.screenshotReferencePath: String
-    get() = "$rootDirPath/src/${selectedVariant.name}/$SCREENSHOT_TEST_DIRECTORY/$SCREENSHOT_TEST_REFERENCE_DIRECTORY"
-
 val KtClass.isScreenshotTestClassWithComposablePreviewFunction: Boolean
-    get() = this.isScreenshotTestClass && this.hasComposablePreviewFunction
+    get() = isScreenshotTestClass && hasComposablePreviewFunction
 
-val KtClass.isScreenshotTestClass: Boolean
-    get() = !this.isData() &&
-        !this.isInterface() &&
-        !this.isEnum() &&
-        !this.isSealed() &&
-        !this.isInner() &&
-        containingKtFile.isScreenshotTestPath
-
-val KtClass.hasComposablePreviewFunction: Boolean
-    get() {
-        val functions = PsiTreeUtil.findChildrenOfType(this, KtNamedFunction::class.java)
-
-        return functions.any { it.hasComposablePreviewAnnotation }
-    }
-
-val KtNamedFunction.hasComposablePreviewAnnotation: Boolean
-    get() = this.hasComposableAnnotation && this.hasComposePreviewAnnotation
-
-val KtFile.isScreenshotTestPath: Boolean
-    get() = virtualFilePath.contains(SCREENSHOT_TEST_DIRECTORY)
-
-val PsiDirectory.isScreenshotTestPath: Boolean
-    get() = virtualFile.path.contains(SCREENSHOT_TEST_DIRECTORY)
+val KtNamedFunction.isScreenshotTestFunction: Boolean
+    get() = getNonStrictParentOfType(KtClass::class.java)?.isScreenshotTestClass == true &&
+        hasComposablePreviewAnnotation
 
 fun PsiDirectory.containsScreenshotTestPath(): Boolean {
     val subdirectories = subdirectories
@@ -67,7 +45,7 @@ fun PsiDirectory.containsScreenshotTestPath(): Boolean {
 }
 
 fun PsiElement.getReferenceImagesPathRegex(): String? {
-    val referencePath = this.androidModel?.screenshotReferencePath ?: return null
+    val referencePath = androidModel?.screenshotReferencePath ?: return null
 
     return getFqName()?.pathSegments()?.joinToString("/")?.let { path ->
         when (this) {
@@ -80,12 +58,39 @@ fun PsiElement.getReferenceImagesPathRegex(): String? {
 }
 
 private val KtNamedFunction.hasComposableAnnotation: Boolean
-    get() = this.descriptor?.annotations?.hasAnnotation(COMPOSE_ANNOTATION_FQ_NAME) == true
+    get() = descriptor?.annotations?.hasAnnotation(COMPOSE_ANNOTATION_FQ_NAME) == true
 
 private val KtNamedFunction.hasComposePreviewAnnotation: Boolean
     get() {
-        return this.descriptor?.annotations?.hasAnnotation(COMPOSE_PREVIEW_ANNOTATION_FQ_NAME) == true ||
-            this.descriptor?.annotations?.any {
+        return descriptor?.annotations?.hasAnnotation(COMPOSE_PREVIEW_ANNOTATION_FQ_NAME) == true ||
+            descriptor?.annotations?.any {
                 it.type.toClassDescriptor?.annotations?.hasAnnotation(COMPOSE_PREVIEW_ANNOTATION_FQ_NAME) == true
             } == true
+    }
+
+private val KtNamedFunction.hasComposablePreviewAnnotation: Boolean
+    get() = hasComposableAnnotation && hasComposePreviewAnnotation
+
+private val KtFile.isScreenshotTestPath: Boolean
+    get() = virtualFilePath.contains(SCREENSHOT_TEST_DIRECTORY)
+
+private val PsiDirectory.isScreenshotTestPath: Boolean
+    get() = virtualFile.path.contains(SCREENSHOT_TEST_DIRECTORY)
+
+private val GradleAndroidModel.screenshotReferencePath: String
+    get() = "$rootDirPath/src/${selectedVariant.name}/$SCREENSHOT_TEST_DIRECTORY/$SCREENSHOT_TEST_REFERENCE_DIRECTORY"
+
+private val KtClass.isScreenshotTestClass: Boolean
+    get() = !isData() &&
+        !isInterface() &&
+        !isEnum() &&
+        !isSealed() &&
+        !isInner() &&
+        containingKtFile.isScreenshotTestPath
+
+private val KtClass.hasComposablePreviewFunction: Boolean
+    get() {
+        val functions = PsiTreeUtil.findChildrenOfType(this, KtNamedFunction::class.java)
+
+        return functions.any { it.hasComposablePreviewAnnotation }
     }

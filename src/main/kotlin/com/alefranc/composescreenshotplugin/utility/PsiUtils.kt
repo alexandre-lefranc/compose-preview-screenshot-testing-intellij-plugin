@@ -10,13 +10,13 @@ import org.jetbrains.kotlin.psi.KtNamedFunction
 private const val DISPLAY_NAME_MAX_CHARACTERS = 20
 
 val KtNamedFunction.displayName: String
-    get() = this.name.sanitizeName
+    get() = name.sanitizeName
 
 val KtClass.displayName: String
-    get() = this.name.sanitizeName
+    get() = name.sanitizeName
 
 val PsiDirectory.displayName: String
-    get() = (this.getFqNameWithImplicitPrefix()?.asString().takeUnless { it.isNullOrBlank() } ?: this.name).sanitizeName
+    get() = (getFqNameWithImplicitPrefix()?.asString().takeUnless { it.isNullOrBlank() } ?: name).sanitizeName
 
 fun PsiElement.getFqName(): FqName? {
     return when (this) {
@@ -30,8 +30,8 @@ fun PsiElement.getFqName(): FqName? {
 private val String?.sanitizeName: String
     get() {
         if (this == null) return "Unknown"
-        if (this.length > DISPLAY_NAME_MAX_CHARACTERS) {
-            return "${this.take(DISPLAY_NAME_MAX_CHARACTERS)}..."
+        if (length > DISPLAY_NAME_MAX_CHARACTERS) {
+            return "${take(DISPLAY_NAME_MAX_CHARACTERS)}..."
         }
         return this
     }
