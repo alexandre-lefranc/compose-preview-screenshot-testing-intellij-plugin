@@ -26,7 +26,7 @@
     </extensions>
     <actions>
         <group id="com.alefranc.composescreenshotplugin.actions.ScreenshotActionsGroup"
-               text="Run screenshot tests"
+               text="Screenshot tests"
                popup="true"
                class="com.alefranc.composescreenshotplugin.actions.ScreenshotActionsGroup">
             <add-to-group group-id="ToolsMenu" anchor="last"/>

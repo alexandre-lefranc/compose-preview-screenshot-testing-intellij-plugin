@@ -2,7 +2,7 @@ package com.alefranc.composescreenshotplugin.actions.base
 
 import com.alefranc.composescreenshotplugin.utility.SCREENSHOT_REFERENCE_FILE_EXTENSION
 import com.alefranc.composescreenshotplugin.utility.findFilesByExtension
-import com.alefranc.composescreenshotplugin.utility.getReferenceImagesPath
+import com.alefranc.composescreenshotplugin.utility.getReferenceImagesPathRegex
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
@@ -16,7 +16,7 @@ abstract class BaseReferenceFilesAction(
 
     override fun actionPerformed(actionEvent: AnActionEvent) {
         val project = actionEvent.project ?: return
-        val pathRegex = getElement(actionEvent)?.getReferenceImagesPath() ?: return
+        val pathRegex = getElement(actionEvent)?.getReferenceImagesPathRegex() ?: return
         val files = project.findFilesByExtension(SCREENSHOT_REFERENCE_FILE_EXTENSION, pathRegex)
 
         onActionPerformed(project, files)

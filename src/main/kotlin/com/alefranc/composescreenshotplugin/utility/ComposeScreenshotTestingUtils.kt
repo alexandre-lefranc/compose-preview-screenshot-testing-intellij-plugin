@@ -56,7 +56,17 @@ val KtFile.isScreenshotTestPath: Boolean
 val PsiDirectory.isScreenshotTestPath: Boolean
     get() = virtualFile.path.contains(SCREENSHOT_TEST_DIRECTORY)
 
-fun PsiElement.getReferenceImagesPath(): String? {
+fun PsiDirectory.containsScreenshotTestPath(): Boolean {
+    val subdirectories = subdirectories
+    for (subdirectory in subdirectories) {
+        if (subdirectory.isScreenshotTestPath || subdirectory.containsScreenshotTestPath()) {
+            return true
+        }
+    }
+    return false
+}
+
+fun PsiElement.getReferenceImagesPathRegex(): String? {
     val referencePath = this.androidModel?.screenshotReferencePath ?: return null
 
     return getFqName()?.pathSegments()?.joinToString("/")?.let { path ->
@@ -66,7 +76,7 @@ fun PsiElement.getReferenceImagesPath(): String? {
             is PsiDirectory -> "$referencePath/$path/.*"
             else -> null
         }
-    }
+    } ?: "$referencePath/.*"
 }
 
 private val KtNamedFunction.hasComposableAnnotation: Boolean

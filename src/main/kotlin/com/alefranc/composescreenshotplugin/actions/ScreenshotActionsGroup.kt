@@ -1,7 +1,8 @@
 package com.alefranc.composescreenshotplugin.actions
 
+import com.alefranc.composescreenshotplugin.utility.androidModel
+import com.alefranc.composescreenshotplugin.utility.containsScreenshotTestPath
 import com.alefranc.composescreenshotplugin.utility.isScreenshotTestClassWithComposablePreviewFunction
-import com.alefranc.composescreenshotplugin.utility.isScreenshotTestPath
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.ActionUpdateThread.BGT
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -19,15 +20,15 @@ class ScreenshotActionsGroup : DefaultActionGroup() {
     override fun update(actionEvent: AnActionEvent) {
         val project = actionEvent.project
         val presentation = actionEvent.presentation
+        val psiElement = actionEvent.getData(PSI_ELEMENT)
 
-        if (project == null) {
+        if (project == null || psiElement?.androidModel == null) {
             // If no project defined, disable the menu item
             presentation.isEnabledAndVisible = false
             return
         }
 
-        val psiElement = actionEvent.getData(PSI_ELEMENT)
-        if (psiElement is PsiDirectory && psiElement.isScreenshotTestPath) {
+        if (psiElement is PsiDirectory && psiElement.containsScreenshotTestPath()) {
             presentation.isEnabledAndVisible = true
         } else if (psiElement is KtClass && psiElement.isScreenshotTestClassWithComposablePreviewFunction) {
             presentation.isEnabledAndVisible = true
