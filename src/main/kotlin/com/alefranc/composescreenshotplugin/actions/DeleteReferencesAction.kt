@@ -53,7 +53,7 @@ class DeleteReferencesAction(
 
                     notify(notification, project)
                 } catch (exception: IOException) {
-                    exception.printStackTrace()
+                    logger.error("Error while deleting file", exception)
                 }
             }
         }

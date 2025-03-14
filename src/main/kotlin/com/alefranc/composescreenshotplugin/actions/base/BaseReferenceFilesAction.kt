@@ -12,7 +12,7 @@ abstract class BaseReferenceFilesAction(
     targetElement: PsiElement? = null,
 ) : BaseAction(targetElement) {
 
-    abstract fun onActionPerformed(project: Project, references: List<VirtualFile>)
+    protected abstract fun onActionPerformed(project: Project, references: List<VirtualFile>)
 
     override fun actionPerformed(actionEvent: AnActionEvent) {
         val project = actionEvent.project ?: return

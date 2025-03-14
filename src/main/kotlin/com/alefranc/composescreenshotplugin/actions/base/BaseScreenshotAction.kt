@@ -18,10 +18,10 @@ abstract class BaseScreenshotAction(
     targetElement: PsiElement? = null,
 ) : BaseAction(targetElement) {
 
-    abstract val gradleCommandLine: String
-    abstract val gradleCommandLineOption: String
+    protected abstract val gradleCommandLine: String
+    protected abstract val gradleCommandLineOption: String
 
-    abstract fun onTaskSuccess(project: Project, androidModel: GradleAndroidModel)
+    protected abstract fun onTaskSuccess(project: Project, androidModel: GradleAndroidModel)
 
     override fun update(actionEvent: AnActionEvent) {
         val element = getElement(actionEvent) ?: return

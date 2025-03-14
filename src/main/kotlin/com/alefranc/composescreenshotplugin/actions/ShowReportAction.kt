@@ -11,6 +11,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys.PSI_ELEMENT
 import com.intellij.openapi.actionSystem.LangDataKeys.MODULE_CONTEXT
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.ui.Messages.getErrorIcon
 import org.jetbrains.kotlin.idea.base.util.module
@@ -21,6 +22,8 @@ import java.net.URI
 class ShowReportAction(
     private val reportPath: String? = null
 ) : AnAction(ACTION_TEXT_OPEN_REPORT) {
+
+    private val logger = Logger.getInstance(this::class.java)
 
     override fun actionPerformed(actionEvent: AnActionEvent) {
         val reportPath = getReportPath(actionEvent)
@@ -39,7 +42,8 @@ class ShowReportAction(
             try {
                 Desktop.getDesktop().browse(URI.create("file://$reportPath"))
             } catch (exception: IOException) {
-                exception.printStackTrace()
+                logger.error("Error while opening report", exception)
+
                 Messages.showMessageDialog(
                     actionEvent.project,
                     ERROR_CANNOT_OPEN_REPORT + reportPath,
