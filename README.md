@@ -10,7 +10,12 @@ Plugin features are:
 - Show reference images
 - Delete references images
 
-All commands are based on the current build variant.
+All commands are available from modules, packages, test classes and preview methods and are based on the current build variant.
+
+![](market/screenshot_1.png)
+![](market/screenshot_2.png)
+![](market/screenshot_3.png)
+![](market/screenshot_4.png)
 
 Installation
 ========
