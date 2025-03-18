@@ -2,16 +2,11 @@
 import org.jetbrains.changelog.Changelog.OutputType.HTML
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
-val pluginGroup: String by project
 val pluginName: String by project
 val pluginVersion: String by project
 val pluginSinceBuild: String by project
 val pluginUntilBuild: String by project
 val pluginRepositoryUrl: String by project
-
-val platformType: String by project
-val platformVersion: String by project
-val platformDownloadSources: String by project
 
 plugins {
     id("java")
@@ -57,7 +52,6 @@ dependencies {
 intellijPlatform {
     pluginConfiguration {
         name = pluginName
-        group = pluginGroup
         version = pluginVersion
 
         changeNotes = changelog.renderItem(
