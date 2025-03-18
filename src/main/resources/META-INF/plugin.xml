@@ -4,9 +4,18 @@
     <vendor>Alexandre Lefranc</vendor>
 
     <description><![CDATA[
-    Enter short description for your plugin here.<br>
-    <em>most HTML tags may be used</em>
-  ]]></description>
+Streamline your Compose Preview Screenshot Testing! This plugin lets you run all testing commands directly from Android Studio, boosting your productivity and simplifying your workflow.
+<br/><br/>
+Plugin features are:
+<ul>
+<li>Validate specific tests and show report</li>
+<li>Generate reference images from specific tests</li>
+<li>Show reference images</li>
+<li>Delete references images</li>
+</ul>
+<br/>
+All commands are available from modules, packages, test classes and preview methods and are based on the current build variant.
+]]></description>
 
     <depends>com.intellij.gradle</depends>
     <depends>com.intellij.modules.androidstudio</depends>
@@ -24,6 +33,11 @@
                 implementationClass="com.alefranc.composescreenshotplugin.extensions.ScreenshotTestFunctionLineMarkerProvider"/>
 
     </extensions>
+
+    <extensions defaultExtensionNs="org.jetbrains.kotlin">
+        <supportsKotlinPluginMode supportsK2="true" />
+    </extensions>
+
     <actions>
         <group id="com.alefranc.composescreenshotplugin.actions.ScreenshotActionsGroup"
                text="Screenshot tests"

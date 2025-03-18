@@ -1,4 +1,4 @@
-import org.gradle.api.JavaVersion.VERSION_17
+
 import org.jetbrains.changelog.Changelog.OutputType.HTML
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
@@ -23,11 +23,6 @@ plugins {
 
 kotlin {
     jvmToolchain(17)
-}
-
-java {
-    sourceCompatibility = VERSION_17
-    targetCompatibility = VERSION_17
 }
 
 repositories {
@@ -63,9 +58,8 @@ intellijPlatform {
     pluginConfiguration {
         name = pluginName
         group = pluginGroup
-        version = platformVersion
+        version = pluginVersion
 
-//        description = ""
         changeNotes = changelog.renderItem(
             changelog
                 .getUnreleased()
@@ -88,6 +82,11 @@ intellijPlatform {
         token = providers.environmentVariable("PUBLISH_TOKEN")
         channels = providers.gradleProperty("pluginVersion")
             .map { listOf(it.substringAfter('-', "").substringBefore('.').ifEmpty { "default" }) }
+    }
+    pluginVerification {
+        ides {
+            recommended()
+        }
     }
 }
 

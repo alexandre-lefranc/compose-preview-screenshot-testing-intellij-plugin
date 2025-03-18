@@ -131,3 +131,5 @@ hs_err_pid*
 
 # Kotlin
 .kotlin/
+
+.secrets/
