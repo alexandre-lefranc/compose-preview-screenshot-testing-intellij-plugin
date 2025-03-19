@@ -68,14 +68,14 @@ intellijPlatform {
         }
     }
     signing {
-        certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN").get()
-        privateKey = providers.environmentVariable("PRIVATE_KEY").get()
+        certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN")
+        privateKey = providers.environmentVariable("PRIVATE_KEY")
 
-        if (certificateChain.get().isBlank()) {
+        if (certificateChain.getOrElse("").isBlank()) {
             this.certificateChainFile = File("./.secrets/chain.crt")
         }
 
-        if (privateKey.get().isBlank()) {
+        if (privateKey.getOrElse("").isBlank()) {
             privateKeyFile = File("./.secrets/private_encrypted.pem")
         }
 
