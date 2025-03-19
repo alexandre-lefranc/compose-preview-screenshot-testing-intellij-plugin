@@ -68,10 +68,20 @@ intellijPlatform {
         }
     }
     signing {
-        certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN")
-        privateKey = providers.environmentVariable("PRIVATE_KEY")
+        certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN").get()
+        privateKey = providers.environmentVariable("PRIVATE_KEY").get()
+
+        if (certificateChain.get().isBlank()) {
+            this.certificateChainFile = File("./.secrets/chain.crt")
+        }
+
+        if (privateKey.get().isBlank()) {
+            privateKeyFile = File("./.secrets/private_encrypted.pem")
+        }
+
         password = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
     }
+
     publishing {
         token = providers.environmentVariable("PUBLISH_TOKEN")
         channels = providers.gradleProperty("pluginVersion")
