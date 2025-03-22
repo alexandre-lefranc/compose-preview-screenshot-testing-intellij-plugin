@@ -1,75 +1,92 @@
-name: CI
+# GitHub Actions Workflow created for handling the release process based on the draft release prepared with the Build workflow.
+# Running the publishPlugin task requires all following secrets to be provided: PUBLISH_TOKEN, PRIVATE_KEY, PRIVATE_KEY_PASSWORD, CERTIFICATE_CHAIN.
+# See https://plugins.jetbrains.com/docs/intellij/plugin-signing.html for more information.
 
+name: Release
 on:
   push:
-    branches-ignore:
-      - main
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+    branches:
+      - 'releases/**'
 
 jobs:
-  build:
+
+  # Prepare and publish the plugin to JetBrains Marketplace repository
+  release:
+    name: Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       # Check out the current repository
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      # Validate wrapper
-      - name: Gradle Wrapper Validation
-        uses: gradle/actions/wrapper-validation@v3
-
-      - name: Cache Gradle dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/build.gradle', '**/gradle.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-       # Setup Gradle
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
-
-      # Build plugin
-      - name: Build with Gradle
-        run: ./gradlew build
-
-  lint:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      # Check out the current repository
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      # Run Detekt
-      - name: Detekt
-        uses: natiginfo/action-detekt-all@1.23.7
-        with:
-          args: --config codeQuality/detekt.yml
-
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      # Check out the current repository
-      - name: Checkout
+      - name: Fetch Sources
         uses: actions/checkout@v4
 
       # Setup Gradle
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v4
 
-      # Run tests
-      - name: Run test
-        run: ./gradlew check
+      # Get the plugin version from the branch
+      - name: Extract Version from Branch
+        run: echo "VERSION=$(echo ${{ github.ref_name }} | sed -E 's/release\/(.*)/\1/')" >> $GITHUB_ENV
 
-      # Collect Tests Result of failed tests
-      - name: Collect Tests Result
-        if: ${{ failure() }}
-        uses: actions/upload-artifact@v4
+      # Get Release Type
+      - name: Detect Release Type
+        run: |
+          if [[ "$env.VERSION" == *-* ]]; then
+            type=$(echo "$env.VERSION" | sed -E 's/.*-([^/-]+)$/\1/')
+            echo "RELEASE_TYPE=$type" >> "$GITHUB_ENV"
+          else
+            echo "RELEASE_TYPE=" >> "$GITHUB_ENV"
+          fi
+
+      # Set New Plugin Version
+      - name: Set New Plugin Version
+        run: |
+          echo "Setting plugin version to ${{ env.VERSION }}"
+          echo 'extra["pluginVersion"] = "${{ env.VERSION }}"' > build.version.gradle.kts
+
+      # Get Changelog
+      - name: Get Changelog
+        shell: bash
+        run: |
+          CHANGELOG="$(./gradlew getChangelog --console=plain -q --no-header --no-summary --unreleased --no-empty-sections)"
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+
+      # Update the Unreleased section with the current release note
+      - name: Patch Changelog
+        shell: bash
+        if: ${{ env.CHANGELOG != '' }}
+        run: |
+          ./gradlew patchChangelog --release-note="${{ env.CHANGELOG }}"
+
+      # Publish the plugin to JetBrains Marketplace
+      - name: Publish Plugin
+        env:
+          PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
+          CERTIFICATE_CHAIN: ${{ secrets.CERTIFICATE_CHAIN }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          PRIVATE_KEY_PASSWORD: ${{ secrets.PRIVATE_KEY_PASSWORD }}
+        run: ./gradlew signPlugin
+
+      # Commit new version, new changelog
+      - name: Commit & Tag Version
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git commit -am "Release version ${{ env.VERSION }}"
+          git tag -a "v${{ env.VERSION }}" -m "Version ${{ env.VERSION }}"
+          git push --set-upstream origin ${{ github.ref_name }}
+
+      # Create GitHub Release with assets
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: test-results
-          path: build/test-results/test*
+          tag_name: "v${{ env.VERSION }}"
+          name: "Release ${{ env.VERSION }}"
+          body: ${{ env.CHANGELOG }}
+          prerelease: ${{ env.RELEASE_TYPE != '' }}
+          files: |
+            ./build/distributions/compose-preview-screenshot-testing-plugin-signed.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
