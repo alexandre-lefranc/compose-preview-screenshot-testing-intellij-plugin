@@ -4,12 +4,7 @@
 
 ### Added
 
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
+- Validate specific tests and show report
+- Generate reference images from specific tests
+- Show reference images
+- Delete references images
