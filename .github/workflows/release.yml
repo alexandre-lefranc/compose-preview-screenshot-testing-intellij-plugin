@@ -29,19 +29,21 @@ jobs:
       # Get the plugin version from the branch
       - name: Extract Version from Branch
         run: |
-          echo "VERSION=$(echo ${{ github.ref_name }} | sed -E 's/release\/(.*)/\1/')" >> $GITHUB_ENV
+          VERSION=$(echo ${{ github.ref_name }} | sed -E 's/release\/(.*)/\1/')
           echo "New plugin version is $VERSION"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       # Get Release Type
       - name: Detect Release Type
         run: |
-          if [[ "$env.VERSION" == *-* ]]; then
-            type=$(echo "$env.VERSION" | sed -E 's/.*-([^/-]+)$/\1/')
-            echo "RELEASE_TYPE=$type" >> "$GITHUB_ENV"
+          echo "Detect release type for version ${{ env.VERSION }}"
+          if [[ "${{ env.VERSION }}" == *-* ]]; then
+            RELEASE_TYPE=$(echo ${{ env.VERSION }} | sed -E 's/.*-(([a-zA-Z]+))[0-9]*$/\1/')
           else
-            echo "RELEASE_TYPE=" >> "$GITHUB_ENV"
+            RELEASE_TYPE="stable"
           fi
           echo "Release type is $RELEASE_TYPE"
+          echo "RELEASE_TYPE=$RELEASE_TYPE" >> $GITHUB_ENV
 
       # Set New Plugin Version
       - name: Set New Plugin Version
@@ -53,8 +55,11 @@ jobs:
       - name: Get Changelog
         shell: bash
         run: |
-          CHANGELOG="$(./gradlew getChangelog --console=plain -q --no-header --no-summary --unreleased --no-empty-sections)" >> $GITHUB_ENV
-          echo "Changelog is:\n $CHANGELOG"
+          CHANGELOG=$(./gradlew getChangelog --console=plain -q --no-header --no-summary --unreleased --no-empty-sections)
+          echo "Changelog is:\n$CHANGELOG"
+          echo "CHANGELOG<<EOF" >> $GITHUB_ENV
+          echo "$CHANGELOG" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       # Update the Unreleased section with the current release note
       - name: Patch Changelog
@@ -76,9 +81,16 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
+
+          # Commit changes
           git commit -am "Release version ${{ env.VERSION }}"
+
+          # Create and tag the commit
           git tag -a "v${{ env.VERSION }}" -m "Version ${{ env.VERSION }}"
+
+          # Push both commit and tag
           git push --set-upstream origin ${{ github.ref_name }}
+          git push origin "v${{ env.VERSION }}"
 
       # Create GitHub Release with assets
       - name: Create GitHub Release
@@ -87,7 +99,7 @@ jobs:
           tag_name: "v${{ env.VERSION }}"
           name: "${{ env.VERSION }}"
           body: ${{ env.CHANGELOG }}
-          prerelease: ${{ env.RELEASE_TYPE != '' }}
+          prerelease: ${{ env.RELEASE_TYPE != 'stable' }}
           files: |
             ./build/distributions/compose-preview-screenshot-testing-plugin-signed.zip
         env:
