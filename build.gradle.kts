@@ -1,12 +1,13 @@
-
 import org.jetbrains.changelog.Changelog.OutputType.HTML
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 val pluginName: String by project
-val pluginVersion: String by project
 val pluginSinceBuild: String by project
 val pluginUntilBuild: String by project
 val pluginRepositoryUrl: String by project
+
+apply(from = "build.version.gradle.kts")
+val pluginVersion = extra["pluginVersion"] as String
 
 plugins {
     id("java")
@@ -81,11 +82,9 @@ intellijPlatform {
 
         password = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
     }
-
     publishing {
         token = providers.environmentVariable("PUBLISH_TOKEN")
-        channels = providers.gradleProperty("pluginVersion")
-            .map { listOf(it.substringAfter('-', "").substringBefore('.').ifEmpty { "default" }) }
+        channels = listOf(pluginVersion.substringAfter('-', "").substringBefore('.').ifEmpty { "default" })
     }
     pluginVerification {
         ides {
