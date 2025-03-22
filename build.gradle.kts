@@ -84,7 +84,7 @@ intellijPlatform {
     }
     publishing {
         token = providers.environmentVariable("PUBLISH_TOKEN")
-        channels = listOf(pluginVersion.substringAfter('-', "").substringBefore('.').ifEmpty { "default" })
+        channels = listOf(if ('-' in pluginVersion) "beta" else "default")
     }
     pluginVerification {
         ides {
