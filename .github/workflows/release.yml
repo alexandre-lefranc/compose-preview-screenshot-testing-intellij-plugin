@@ -28,7 +28,9 @@ jobs:
 
       # Get the plugin version from the branch
       - name: Extract Version from Branch
-        run: echo "VERSION=$(echo ${{ github.ref_name }} | sed -E 's/release\/(.*)/\1/')" >> $GITHUB_ENV
+        run: |
+          echo "VERSION=$(echo ${{ github.ref_name }} | sed -E 's/release\/(.*)/\1/')" >> $GITHUB_ENV
+          echo "New plugin version is $VERSION"
 
       # Get Release Type
       - name: Detect Release Type
@@ -39,6 +41,7 @@ jobs:
           else
             echo "RELEASE_TYPE=" >> "$GITHUB_ENV"
           fi
+          echo "Release type is $RELEASE_TYPE"
 
       # Set New Plugin Version
       - name: Set New Plugin Version
@@ -50,13 +53,12 @@ jobs:
       - name: Get Changelog
         shell: bash
         run: |
-          CHANGELOG="$(./gradlew getChangelog --console=plain -q --no-header --no-summary --unreleased --no-empty-sections)"
-          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          CHANGELOG="$(./gradlew getChangelog --console=plain -q --no-header --no-summary --unreleased --no-empty-sections)" >> $GITHUB_ENV
+          echo "Changelog is:\n $CHANGELOG"
 
       # Update the Unreleased section with the current release note
       - name: Patch Changelog
         shell: bash
-        if: ${{ env.CHANGELOG != '' }}
         run: |
           ./gradlew patchChangelog --release-note="${{ env.CHANGELOG }}"
 
@@ -83,7 +85,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: "v${{ env.VERSION }}"
-          name: "Release ${{ env.VERSION }}"
+          name: "${{ env.VERSION }}"
           body: ${{ env.CHANGELOG }}
           prerelease: ${{ env.RELEASE_TYPE != '' }}
           files: |
