@@ -57,7 +57,7 @@ intellijPlatform {
 
         changeNotes = changelog.renderItem(
             changelog
-                .get(pluginVersion)
+                .getUnreleased()
                 .withHeader(false)
                 .withEmptySections(false),
             HTML
