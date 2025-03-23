@@ -1,5 +1,7 @@
 Compose Preview Screenshot Testing Plugin
 ========
+[![CI](https://github.com/alexandre-lefranc/compose-preview-screenshot-testing-intellij-plugin/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/alexandre-lefranc/compose-preview-screenshot-testing-intellij-plugin/actions/workflows/ci.yml)
+
 <img src="market/icon.png" alt="logo" style="background-color: white; height: 200px;" />
 
 Streamline your Compose Preview Screenshot Testing! This plugin lets you run all testing commands directly from Android Studio, boosting your productivity and simplifying your workflow.
