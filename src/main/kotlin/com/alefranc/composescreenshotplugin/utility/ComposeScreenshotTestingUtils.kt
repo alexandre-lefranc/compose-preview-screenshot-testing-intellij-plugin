@@ -3,23 +3,17 @@ package com.alefranc.composescreenshotplugin.utility
 import com.android.tools.idea.gradle.project.model.GradleAndroidModel
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiElement
-import com.intellij.psi.util.PsiTreeUtil
-import org.jetbrains.kotlin.idea.search.usagesSearch.descriptor
-import org.jetbrains.kotlin.name.FqName
+import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtNamedFunction
 import org.jetbrains.kotlin.psi.psiUtil.getNonStrictParentOfType
-import org.jetbrains.kotlinx.serialization.compiler.resolve.toClassDescriptor
 
-private val COMPOSE_ANNOTATION_FQ_NAME = FqName("androidx.compose.runtime.Composable")
-
-private val COMPOSE_PREVIEW_ANNOTATION_FQ_NAME = FqName("androidx.compose.ui.tooling.preview.Preview")
+private val COMPOSE_COMPOSABLE_ANNOTATION_CLASS_ID = ClassId.fromString("androidx/compose/runtime/Composable")
+private val COMPOSE_PREVIEW_ANNOTATION_CLASS_ID = ClassId.fromString("androidx/compose/ui/tooling/preview/Preview")
 
 private const val SCREENSHOT_TEST_DIRECTORY = "screenshotTest"
-
 private const val PREVIEW_REPORTS = "build/reports/screenshotTest/preview"
-
 private const val SCREENSHOT_TEST_REFERENCE_DIRECTORY = "reference"
 
 const val SCREENSHOT_REFERENCE_FILE_EXTENSION = "png"
@@ -58,15 +52,10 @@ fun PsiElement.getReferenceImagesPathRegex(): String? {
 }
 
 private val KtNamedFunction.hasComposableAnnotation: Boolean
-    get() = descriptor?.annotations?.hasAnnotation(COMPOSE_ANNOTATION_FQ_NAME) == true
+    get() = hasAnnotation(COMPOSE_COMPOSABLE_ANNOTATION_CLASS_ID)
 
 private val KtNamedFunction.hasComposePreviewAnnotation: Boolean
-    get() {
-        return descriptor?.annotations?.hasAnnotation(COMPOSE_PREVIEW_ANNOTATION_FQ_NAME) == true ||
-            descriptor?.annotations?.any {
-                it.type.toClassDescriptor?.annotations?.hasAnnotation(COMPOSE_PREVIEW_ANNOTATION_FQ_NAME) == true
-            } == true
-    }
+    get() = hasAnnotation(COMPOSE_PREVIEW_ANNOTATION_CLASS_ID)
 
 private val KtNamedFunction.hasComposablePreviewAnnotation: Boolean
     get() = hasComposableAnnotation && hasComposePreviewAnnotation
@@ -89,8 +78,4 @@ private val KtClass.isScreenshotTestClass: Boolean
         containingKtFile.isScreenshotTestPath
 
 private val KtClass.hasComposablePreviewFunction: Boolean
-    get() {
-        val functions = PsiTreeUtil.findChildrenOfType(this, KtNamedFunction::class.java)
-
-        return functions.any { it.hasComposablePreviewAnnotation }
-    }
+    get() = declarations.filterIsInstance<KtNamedFunction>().any { it.hasComposablePreviewAnnotation }

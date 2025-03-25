@@ -1,5 +1,6 @@
 import org.jetbrains.changelog.Changelog.OutputType.HTML
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+import org.jetbrains.intellij.platform.gradle.tasks.RunIdeTask
 
 val pluginName: String by project
 val pluginSinceBuild: String by project
@@ -101,6 +102,18 @@ changelog {
 detekt {
     buildUponDefaultConfig = true
     config.setFrom("$projectDir/codeQuality/detekt.yml")
+}
+
+tasks.named<RunIdeTask>("runIde") {
+    jvmArgumentProviders += CommandLineArgumentProvider {
+        listOf("-Didea.kotlin.plugin.use.k2=true")
+    }
+}
+
+tasks.test {
+    jvmArgumentProviders += CommandLineArgumentProvider {
+        listOf("-Didea.kotlin.plugin.use.k2=true")
+    }
 }
 
 val runLocalIde by intellijPlatformTesting.runIde.registering {

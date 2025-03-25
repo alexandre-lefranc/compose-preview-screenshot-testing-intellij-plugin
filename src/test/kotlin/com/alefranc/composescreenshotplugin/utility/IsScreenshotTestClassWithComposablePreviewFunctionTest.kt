@@ -78,6 +78,10 @@ class IsScreenshotTestClassWithComposablePreviewFunctionTest : BasePlatformTestC
                 true,
             ),
             arrayOf(
+                "src/screenshotTest/ClassWithSingleScreenshotTestAndWithCustomPreview.kt",
+                true,
+            ),
+            arrayOf(
                 "src/screenshotTest/ComposablePreviewFunctions.kt",
                 null,
             ),

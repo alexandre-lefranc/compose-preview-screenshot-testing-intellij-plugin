@@ -35,7 +35,7 @@ All commands are available from modules, packages, test classes and preview meth
     </extensions>
 
     <extensions defaultExtensionNs="org.jetbrains.kotlin">
-        <supportsKotlinPluginMode supportsK2="true" />
+        <supportsKotlinPluginMode supportsK1="true" supportsK2="true" />
     </extensions>
 
     <actions>
