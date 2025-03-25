@@ -1,1 +1,1 @@
-extra["pluginVersion"] = "0.0.1"
+extra["pluginVersion"] = "1.0.0-rc1"
