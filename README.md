@@ -10,7 +10,7 @@ Plugin features are:
 - Validate specific tests and show report
 - Generate reference images from specific tests
 - Show reference images
-- Delete references images
+- Delete reference images
 
 All commands are available from modules, packages, test classes and preview methods and are based on the current build variant.
 

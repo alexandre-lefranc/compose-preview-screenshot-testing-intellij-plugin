@@ -11,7 +11,7 @@ Plugin features are:
 <li>Validate specific tests and show report</li>
 <li>Generate reference images from specific tests</li>
 <li>Show reference images</li>
-<li>Delete references images</li>
+<li>Delete reference images</li>
 </ul>
 <br/>
 All commands are available from modules, packages, test classes and preview methods and are based on the current build variant.
@@ -40,7 +40,7 @@ All commands are available from modules, packages, test classes and preview meth
 
     <actions>
         <group id="com.alefranc.composescreenshotplugin.actions.ScreenshotActionsGroup"
-               text="Screenshot tests"
+               text="Screenshot Tests"
                popup="true"
                class="com.alefranc.composescreenshotplugin.actions.ScreenshotActionsGroup">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
@@ -61,12 +61,12 @@ All commands are available from modules, packages, test classes and preview meth
             <action id="com.alefranc.composescreenshotplugin.actions.ShowReferencesAction"
                     class="com.alefranc.composescreenshotplugin.actions.ShowReferencesAction"
                     popup="true"
-                    text="Show references images"/>
+                    text="Show Reference Images"/>
 
             <action id="com.alefranc.composescreenshotplugin.actions.DeleteReferencesAction"
                     class="com.alefranc.composescreenshotplugin.actions.DeleteReferencesAction"
                     popup="true"
-                    text="Delete references images"/>
+                    text="Delete Reference Images"/>
         </group>
     </actions>
 </idea-plugin>

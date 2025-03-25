@@ -21,7 +21,7 @@
 - Validate specific tests and show report
 - Generate reference images from specific tests
 - Show reference images
-- Delete references images
+- Delete reference images
 
 [Unreleased]: https://github.com/alexandre-lefranc/compose-preview-screenshot-testing-intellij-plugin/compare/v1.0.0-rc1...HEAD
 [1.0.0-rc1]: https://github.com/alexandre-lefranc/compose-preview-screenshot-testing-intellij-plugin/commits/v1.0.0-rc1
