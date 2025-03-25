@@ -4,6 +4,10 @@
 
 ### Added
 
+- K2 support
+
+### Added
+
 ### Changed
 
 ### Deprecated
