@@ -23,9 +23,9 @@ Installation
 ========
 
 Download and install *Compose Preview Screenshot Testing* directly from Intellij / Android Studio:
-`Preferences/Settings->Plugins->Browse Repositories`
+`Preferences/Settings->Plugins->Marketplace`
 
-Alternatively, you can [download the plugin](http://plugins.jetbrains.com/plugin/) from the jetbrains plugin site and install it manually in:
+Alternatively, you can [download the plugin](https://plugins.jetbrains.com/plugin/26859-compose-preview-screenshot-testing/versions?noRedirect=true) from the jetbrains plugin site and install it manually in:
 `Preferences/Settings->Plugins->Install plugin from disk`
 
 Building / developing the plugin
