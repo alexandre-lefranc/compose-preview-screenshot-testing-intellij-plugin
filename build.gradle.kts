@@ -33,7 +33,7 @@ repositories {
 dependencies {
     intellijPlatform {
         androidStudio(
-            "2024.2.2.13"
+            "2024.3.1.13"
         ) // https://plugins.jetbrains.com/docs/intellij/android-studio-releases-list.html#2024
         bundledPlugins("org.jetbrains.kotlin", "com.intellij.gradle")
         plugin("org.jetbrains.android:243.23654.153")
