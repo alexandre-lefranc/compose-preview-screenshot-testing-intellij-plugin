@@ -4,10 +4,6 @@
 
 ### Added
 
-- K2 support
-
-### Added
-
 ### Changed
 
 ### Deprecated
@@ -18,6 +14,12 @@
 
 ### Security
 
+## [1.0.0-rc2] - 2025-03-25
+
+### Added
+
+- K2 support
+
 ## [1.0.0-rc1] - 2025-03-22
 
 ### Added
@@ -27,5 +29,6 @@
 - Show reference images
 - Delete reference images
 
-[Unreleased]: https://github.com/alexandre-lefranc/compose-preview-screenshot-testing-intellij-plugin/compare/v1.0.0-rc1...HEAD
+[Unreleased]: https://github.com/alexandre-lefranc/compose-preview-screenshot-testing-intellij-plugin/compare/v1.0.0-rc2...HEAD
+[1.0.0-rc2]: https://github.com/alexandre-lefranc/compose-preview-screenshot-testing-intellij-plugin/compare/v1.0.0-rc1...v1.0.0-rc2
 [1.0.0-rc1]: https://github.com/alexandre-lefranc/compose-preview-screenshot-testing-intellij-plugin/commits/v1.0.0-rc1
