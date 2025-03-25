@@ -58,7 +58,7 @@ intellijPlatform {
 
         changeNotes = changelog.renderItem(
             changelog
-                .getUnreleased()
+                .getLatest()
                 .withHeader(false)
                 .withEmptySections(false),
             HTML
@@ -97,6 +97,7 @@ intellijPlatform {
 changelog {
     version = pluginVersion
     repositoryUrl = pluginRepositoryUrl
+    combinePreReleases = false
 }
 
 detekt {
