@@ -10,6 +10,8 @@ val pluginRepositoryUrl: String by project
 apply(from = "build.version.gradle.kts")
 val pluginVersion = extra["pluginVersion"] as String
 
+val isStableVersion = '-' !in pluginVersion
+
 plugins {
     id("java")
     alias(libs.plugins.kotlin)
@@ -85,7 +87,7 @@ intellijPlatform {
     }
     publishing {
         token = providers.environmentVariable("PUBLISH_TOKEN")
-        channels = listOf(if ('-' in pluginVersion) "beta" else "default")
+        channels = listOf(if (isStableVersion) "default" else "beta")
     }
     pluginVerification {
         ides {
@@ -97,7 +99,7 @@ intellijPlatform {
 changelog {
     version = pluginVersion
     repositoryUrl = pluginRepositoryUrl
-    combinePreReleases = false
+    combinePreReleases = isStableVersion
 }
 
 detekt {
