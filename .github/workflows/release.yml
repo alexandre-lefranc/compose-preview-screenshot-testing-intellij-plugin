@@ -55,7 +55,7 @@ jobs:
       - name: Get Changelog
         shell: bash
         run: |
-          CHANGELOG=$(./gradlew getChangelog --console=plain -q --no-header --no-summary --unreleased --no-empty-sections)
+          CHANGELOG=$(./gradlew getChangelog --quiet --console=plain -q --no-header --no-summary --unreleased --no-empty-sections)
           echo "Changelog is:\n$CHANGELOG"
           echo "CHANGELOG<<EOF" >> $GITHUB_ENV
           echo "$CHANGELOG" >> $GITHUB_ENV
