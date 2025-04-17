@@ -4,6 +4,8 @@
 
 ### Added
 
+- New Plugin Icon
+
 ### Changed
 
 ### Deprecated
