@@ -15,6 +15,8 @@ Plugin features are:
 </ul>
 <br/>
 All commands are available from modules, packages, test classes and preview methods and are based on the current build variant.
+
+The plugin supports the version <br>0.0.1-alpha09</br> of the Compose Preview Screenshot Testing Library.
 ]]></description>
 
     <depends>com.intellij.gradle</depends>

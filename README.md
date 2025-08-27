@@ -14,6 +14,8 @@ Plugin features are:
 
 All commands are available from modules, packages, test classes and preview methods and are based on the current build variant.
 
+The plugin supports the version *0.0.1-alpha09* of the Compose Preview Screenshot Testing Library.
+
 ![](market/screenshot_1.png)
 ![](market/screenshot_2.png)
 ![](market/screenshot_3.png)
