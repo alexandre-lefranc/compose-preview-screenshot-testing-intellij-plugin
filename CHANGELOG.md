@@ -6,6 +6,9 @@
 
 ### Changed
 
+- Target Narwhal 3 Feature Drop (2025.1.3.5)
+- Update Plugin Description
+
 ### Deprecated
 
 ### Removed

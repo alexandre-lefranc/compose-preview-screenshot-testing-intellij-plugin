@@ -19,7 +19,10 @@ private const val SCREENSHOT_TEST_REFERENCE_DIRECTORY = "reference"
 const val SCREENSHOT_REFERENCE_FILE_EXTENSION = "png"
 
 val GradleAndroidModel.screenshotReportPath: String
-    get() = "$rootDirPath/$PREVIEW_REPORTS/${selectedVariant.pathSegments}/index.html"
+    get() = "$rootDirPath/$PREVIEW_REPORTS/${
+        this.selectedVariant.buildType + "/" +
+            selectedVariant.productFlavors.capitalizeExceptFirst().joinToString("")
+    }/index.html"
 
 val KtClass.isScreenshotTestClassWithComposablePreviewFunction: Boolean
     get() = isScreenshotTestClass && hasComposablePreviewFunction

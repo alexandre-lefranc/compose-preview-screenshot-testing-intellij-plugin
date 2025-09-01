@@ -26,7 +26,7 @@ kotlin {
 
 repositories {
     mavenCentral()
-
+    gradlePluginPortal()
     intellijPlatform {
         defaultRepositories()
     }
@@ -35,10 +35,13 @@ repositories {
 dependencies {
     intellijPlatform {
         androidStudio(
-            "2024.3.1.13"
+            "2025.1.3.5" // Target Android Studio Narwhal 3
         ) // https://plugins.jetbrains.com/docs/intellij/android-studio-releases-list.html#2024
-        bundledPlugins("org.jetbrains.kotlin", "com.intellij.gradle")
-        plugin("org.jetbrains.android:243.23654.153")
+        bundledPlugins(
+            "org.jetbrains.kotlin",
+            "com.intellij.gradle",
+            "org.jetbrains.android",
+        )
         pluginVerifier()
         zipSigner()
         testFramework(TestFrameworkType.Platform)
